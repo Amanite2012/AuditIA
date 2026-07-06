@@ -14,6 +14,15 @@ export type Domain = (typeof DOMAINS)[number];
 /** Domaine étendu pour les assertions CR (schéma 4.4, table cr_assertions). */
 export type AssertionDomain = Domain | 'general';
 
+/** Libellés d'affichage des domaines (UI et template CR 11.3). */
+export const DOMAIN_LABELS: Record<AssertionDomain, string> = {
+  acces: 'Gestion des accès',
+  changements: 'Gestion des changements',
+  operations: 'Opérations informatiques',
+  continuite: "Continuité d'activité",
+  general: 'Général',
+};
+
 /** [BRIEF-03] Types d'environnement applicatif. */
 export const APP_TYPES = ['erp', 'middleware', 'batch', 'saas', 'on_premise', 'autre'] as const;
 export type AppType = (typeof APP_TYPES)[number];

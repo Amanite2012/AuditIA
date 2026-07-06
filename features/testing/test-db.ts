@@ -15,12 +15,14 @@ export interface TestDb extends DbClient {
   close(): void;
 }
 
-/** Ouvre une base en mémoire avec le schéma canonique appliqué. */
-export function createTestDb(): TestDb {
+/** Ouvre une base en mémoire, avec le schéma canonique appliqué par défaut. */
+export function createTestDb(options: { applySchema?: boolean } = {}): TestDb {
   const raw = new Database(':memory:');
   raw.pragma('foreign_keys = ON');
-  const schema = readFileSync(join(__dirname, '../../db/schema.sql'), 'utf-8');
-  raw.exec(schema);
+  if (options.applySchema !== false) {
+    const schema = readFileSync(join(__dirname, '../../db/schema.sql'), 'utf-8');
+    raw.exec(schema);
+  }
 
   return {
     raw,
