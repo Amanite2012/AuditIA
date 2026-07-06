@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/17</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>16/16</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -95,57 +95,57 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">64x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
  * Décodage base64 → octets — utilitaire pur (export DOCX [EXP-01]).
  * Implémentation locale : pas de dépendance à atob/Buffer selon le runtime.
  */
-const ALPHABET = <span class="cstat-no" title="statement not covered" >'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';</span>
+const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 &nbsp;
-const REVERSE = <span class="cstat-no" title="statement not covered" >new Map&lt;string, number&gt;(ALPHABET.split('').map(<span class="fstat-no" title="function not covered" >(c</span>har, index) =&gt; <span class="cstat-no" title="statement not covered" >[char, index])</span>);</span>
+const REVERSE = new Map&lt;string, number&gt;(ALPHABET.split('').map((char, index) =&gt; [char, index]));
 &nbsp;
 /** Décode une chaîne base64 (avec ou sans padding) en octets. */
-export function <span class="fstat-no" title="function not covered" >base64ToBytes(</span>base64: string): Uint8Array {
-  const clean = <span class="cstat-no" title="statement not covered" >base64.replace(/[\r\n=]/g, '');</span>
-  const output: number[] = <span class="cstat-no" title="statement not covered" >[];</span>
-  let buffer = <span class="cstat-no" title="statement not covered" >0;</span>
-  let bits = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >  for (const char of clean) {</span>
-    const value = <span class="cstat-no" title="statement not covered" >REVERSE.get(char);</span>
-<span class="cstat-no" title="statement not covered" >    if (value === undefined) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new Error(`Caractère base64 invalide : "${char}"`);</span>
+export function base64ToBytes(base64: string): Uint8Array {
+  const clean = base64.replace(/[\r\n=]/g, '');
+  const output: number[] = [];
+  let buffer = 0;
+  let bits = 0;
+  for (const char of clean) {
+    const value = REVERSE.get(char);
+    if (value === undefined) {
+      throw new Error(`Caractère base64 invalide : "${char}"`);
     }
-<span class="cstat-no" title="statement not covered" >    buffer = (buffer &lt;&lt; 6) | value;</span>
-<span class="cstat-no" title="statement not covered" >    bits += 6;</span>
-<span class="cstat-no" title="statement not covered" >    if (bits &gt;= 8) {</span>
-<span class="cstat-no" title="statement not covered" >      bits -= 8;</span>
-<span class="cstat-no" title="statement not covered" >      output.push((buffer &gt;&gt; bits) &amp; 0xff);</span>
+    buffer = (buffer &lt;&lt; 6) | value;
+    bits += 6;
+    if (bits &gt;= 8) {
+      bits -= 8;
+      output.push((buffer &gt;&gt; bits) &amp; 0xff);
     }
   }
-<span class="cstat-no" title="statement not covered" >  return Uint8Array.from(output);</span>
+  return Uint8Array.from(output);
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -154,7 +154,7 @@ export function <span class="fstat-no" title="function not covered" >base64ToByt
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-07-06T11:44:28.835Z
+                at 2026-07-06T11:45:47.171Z
             </div>
         <script src="../prettify.js"></script>
         <script>
