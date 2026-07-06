@@ -14,7 +14,7 @@ module.exports = {
     '!**/*.types.ts',
   ],
   coverageThreshold: {
-    'features/': {
+    './features/': {
       statements: 80,
       branches: 80,
       functions: 80,

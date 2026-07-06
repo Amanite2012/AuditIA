@@ -230,6 +230,16 @@ describe('[ENT-06] Couverture temps réel', () => {
     expect(coverage.by_domain.acces).toBeDefined();
     expect(coverage.by_domain.acces?.total_themes).toBe(coverage.total_themes);
   });
+
+  it('une session sans item retourne 100% (aucun objectif à couvrir)', async () => {
+    await db.runAsync(
+      `INSERT INTO sessions (id, created_at, updated_at, mission_type, app_name, app_type, interlocutor, domains, duration_min)
+       VALUES ('vide', 0, 0, 'autre', 'App', 'autre', 'autre', '[]', 30)`
+    );
+    const coverage = await computeCoverage(db, 'vide');
+    expect(coverage.total_themes).toBe(0);
+    expect(coverage.percent).toBe(100);
+  });
 });
 
 describe('[REL-01] [REL-03] Autosave atomique', () => {

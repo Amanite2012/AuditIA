@@ -164,6 +164,23 @@ describe('Export CR', () => {
     await expect(exportSession(db, sessionId, 'pdf', hasher, APP_VERSION)).rejects.toThrow('Phase 3');
   });
 
+  it('refuse d’assembler le CR d’une session inconnue', async () => {
+    await expect(assembleCrData(db, 'session-inexistante', APP_VERSION)).rejects.toThrow('introuvable');
+  });
+
+  it('rend les sections vides du template quand il n’y a ni gap ni assertion de domaine', async () => {
+    // Tout couvrir → zéro gap ; aucune assertion => le verrou reste ouvert (0 en attente)
+    const items = await getItems(db, sessionId);
+    for (const item of items) {
+      await setItemStatus(db, item.id, 'couvert');
+    }
+    const result = await exportSession(db, sessionId, 'markdown', hasher, APP_VERSION);
+    expect(result.content).toContain('_Aucun gap identifié._');
+    expect(result.content).toContain('_Aucune assertion validée pour ce domaine._');
+    expect(result.content).toContain('_Aucun point de suivi défini._');
+    expect(await verifyCrHash(result.content, hasher)).toBe(true);
+  });
+
   it('computeCrHash est stable : deux rendus des mêmes données donnent le même hash', async () => {
     await addValidatedAssertion('Assertion validée.');
     const now = Date.now();

@@ -80,6 +80,16 @@ describe('[ANAL-02] Gaps de couverture', () => {
     expect(gaps).toHaveLength(items.length - 1);
     expect(gaps.every((g) => g.theme.length > 0 && g.domain.length > 0)).toBe(true);
   });
+
+  it('ignore un item dont la question n’existe plus dans le référentiel', async () => {
+    await db.runAsync(
+      `INSERT INTO interview_items (id, session_id, question_id, question_text, is_manual, status, created_at, updated_at)
+       VALUES ('orphelin', ?, 'acces_999', 'Question retirée du référentiel ?', 0, 'pending', 0, 0)`,
+      [sessionId]
+    );
+    const gaps = await listGaps(db, sessionId);
+    expect(gaps.some((g) => g.question_id === 'acces_999')).toBe(false);
+  });
 });
 
 describe('[ANAL-04] / [INVARIANT-02] Validation Human-in-the-Loop', () => {
