@@ -72,7 +72,21 @@ async function getOrCreateDbKey(): Promise<string> {
   return key;
 }
 
-let openedDb: SQLite.SQLiteDatabase | null = null;
+/** Adapte l'API expo-sqlite au contrat DbClient (params toujours définis). */
+function wrapExpoDatabase(db: SQLite.SQLiteDatabase): DbClient {
+  return {
+    execAsync: (sql) => db.execAsync(sql),
+    runAsync: async (sql, params = []) => {
+      const result = await db.runAsync(sql, params);
+      return { changes: result.changes };
+    },
+    getAllAsync: (sql, params = []) => db.getAllAsync(sql, params),
+    getFirstAsync: (sql, params = []) => db.getFirstAsync(sql, params),
+    withTransactionAsync: (task) => db.withTransactionAsync(task),
+  };
+}
+
+let openedDb: DbClient | null = null;
 
 /**
  * Ouvre (une seule fois) la base chiffrée SQLCipher et applique les migrations.
@@ -81,7 +95,8 @@ let openedDb: SQLite.SQLiteDatabase | null = null;
 export async function openEncryptedDatabase(): Promise<DbClient> {
   if (openedDb) return openedDb;
   const key = await getOrCreateDbKey();
-  const db = await SQLite.openDatabaseAsync(DB_NAME);
+  const raw = await SQLite.openDatabaseAsync(DB_NAME);
+  const db = wrapExpoDatabase(raw);
   await db.execAsync(`PRAGMA key = "x'${key}'"`);
   await db.execAsync('PRAGMA foreign_keys = ON');
   await runMigrations(db);

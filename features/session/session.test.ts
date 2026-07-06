@@ -8,6 +8,7 @@ import { join } from 'node:path';
 import { MIGRATIONS, runMigrations } from '../../db/db.client';
 import type { SessionConfig } from '../../types';
 import { createSession } from '../briefing/briefing.service';
+import type { SessionConfigInput } from '../briefing/briefing.types';
 import { createTestDb, type TestDb } from '../testing/test-db';
 import {
   addManualNote,
@@ -24,14 +25,14 @@ import {
   updateItemAnswer,
 } from './session.service';
 
-const INPUT = {
+const INPUT: SessionConfigInput = {
   mission_type: 'audit_annuel',
   app_name: 'SAP ECC',
   app_type: 'erp',
   interlocutor: 'responsable_applicatif',
   domains: ['acces'],
   duration_min: 60,
-} as const;
+};
 
 describe('Migrations — cohérence du schéma', () => {
   function normalizeSql(sql: string): string {

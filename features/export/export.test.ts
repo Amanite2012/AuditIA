@@ -6,6 +6,7 @@ import { createHash } from 'node:crypto';
 
 import { addAssertion, modifyAssertion, validateAssertion } from '../analysis/analysis.service';
 import { createSession } from '../briefing/briefing.service';
+import type { SessionConfigInput } from '../briefing/briefing.types';
 import { getItems, setItemStatus } from '../session/session.service';
 import { createTestDb, type TestDb } from '../testing/test-db';
 import { assembleCrData, computeCrHash, exportSession, renderMarkdown, verifyCrHash } from './export.service';
@@ -13,14 +14,14 @@ import type { Sha256Hasher } from './export.types';
 
 const hasher: Sha256Hasher = async (content) => createHash('sha256').update(content, 'utf8').digest('hex');
 
-const INPUT = {
+const INPUT: SessionConfigInput = {
   mission_type: 'audit_annuel',
   app_name: 'SAP ECC',
   app_type: 'erp',
   interlocutor: 'rssi',
   domains: ['acces', 'changements'],
   duration_min: 45,
-} as const;
+};
 
 const APP_VERSION = '1.0.0-test';
 

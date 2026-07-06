@@ -3,6 +3,7 @@
  * ACC-02 et [INVARIANT-02].
  */
 import { createSession } from '../briefing/briefing.service';
+import type { SessionConfigInput } from '../briefing/briefing.types';
 import { getItems, setItemStatus } from '../session/session.service';
 import { createTestDb, type TestDb } from '../testing/test-db';
 import {
@@ -17,14 +18,14 @@ import {
   validateAssertion,
 } from './analysis.service';
 
-const INPUT = {
+const INPUT: SessionConfigInput = {
   mission_type: 'controle_interne',
   app_name: 'Oracle EBS',
   app_type: 'erp',
   interlocutor: 'dsi',
   domains: ['acces', 'continuite'],
   duration_min: 45,
-} as const;
+};
 
 describe('[ANAL-01] Couverture finale par domaine', () => {
   let db: TestDb;
