@@ -16,11 +16,14 @@ import { Alert, ScrollView, StyleSheet, Text, TextInput, View } from 'react-nati
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AssertionRow } from '../../../components/analyse/AssertionRow';
-import { DOMAIN_SHORT_LABELS } from '../../../components/briefing/labels';
-import { AppButton } from '../../../components/shared/AppButton';
 import { ChipSelector } from '../../../components/briefing/ChipSelector';
+import { DOMAIN_SHORT_LABELS } from '../../../components/briefing/labels';
+import { CoverageBar } from '../../../components/entretien/CoverageBar';
+import { AppButton } from '../../../components/shared/AppButton';
 import { useDb } from '../../../components/shared/DbProvider';
-import { colors, fontSizes, spacing } from '../../../components/shared/theme';
+import { ScreenHeader } from '../../../components/shared/ScreenHeader';
+import { SectionLabel } from '../../../components/shared/SectionLabel';
+import { colors, fonts, fontSizes, radii, spacing } from '../../../components/shared/theme';
 import {
   addAssertion,
   deleteAssertion,
@@ -82,7 +85,8 @@ export default function AnalyseScreen(): React.ReactElement {
   if (!config) {
     return (
       <View style={[styles.empty, { paddingTop: insets.top }]}>
-        <Text style={styles.emptyText}>Aucune session à analyser. Terminez d’abord un entretien.</Text>
+        <Text style={styles.emptyTitle}>Aucune session à analyser</Text>
+        <Text style={styles.emptyText}>Terminez d’abord un entretien pour préparer le compte rendu.</Text>
       </View>
     );
   }
@@ -136,41 +140,46 @@ export default function AnalyseScreen(): React.ReactElement {
       contentContainerStyle={[styles.content, { paddingTop: insets.top + spacing.md }]}
       keyboardShouldPersistTaps="handled"
     >
-      <Text style={styles.title}>Analyse post-session</Text>
-      <Text style={styles.subtitle}>{config.app_name}</Text>
+      <ScreenHeader eyebrow="Module 3 · Post-session" title="Analyse" subtitle={config.app_name} />
 
       {/* [ANAL-01] Couverture finale par domaine */}
-      <Text style={styles.sectionTitle}>Couverture finale</Text>
+      <SectionLabel>Couverture finale</SectionLabel>
       <View style={styles.card}>
-        {sessionDomains.map((domain: Domain) => {
+        {sessionDomains.map((domain: Domain, index) => {
           const stats = coverage?.by_domain[domain];
           return (
-            <View key={domain} style={styles.coverageRow}>
-              <Text style={styles.coverageDomain}>{DOMAIN_SHORT_LABELS[domain]}</Text>
-              <Text style={styles.coverageValue}>
-                {stats ? `${stats.covered_themes}/${stats.total_themes} thèmes · ${stats.percent}%` : '—'}
-              </Text>
+            <View key={domain} style={[styles.coverageRow, index > 0 && styles.coverageRowRule]}>
+              <View style={styles.coverageHeader}>
+                <Text style={styles.coverageDomain}>{DOMAIN_SHORT_LABELS[domain]}</Text>
+                <Text style={styles.coverageValue}>
+                  {stats ? `${stats.covered_themes}/${stats.total_themes} thèmes` : '—'}
+                </Text>
+              </View>
+              <CoverageBar percent={stats?.percent ?? 0} label="" />
             </View>
           );
         })}
       </View>
 
       {/* [ANAL-02] Gaps */}
-      <Text style={styles.sectionTitle}>Gaps identifiés ({gaps.length})</Text>
+      <SectionLabel>{`Gaps identifiés (${gaps.length})`}</SectionLabel>
       <View style={styles.card}>
         {gaps.length === 0 && <Text style={styles.mutedText}>Aucun gap : tous les thèmes sont couverts.</Text>}
-        {gaps.map((gap) => (
-          <Text key={`${gap.question_id}-${gap.reason}`} style={styles.gapText}>
-            [{DOMAIN_SHORT_LABELS[gap.domain]}] {gap.question_text}{' '}
-            <Text style={styles.gapReason}>({GAP_REASON_LABELS[gap.reason]})</Text>
-          </Text>
+        {gaps.map((gap, index) => (
+          <View key={`${gap.question_id}-${gap.reason}`} style={[styles.gapRow, index > 0 && styles.coverageRowRule]}>
+            <Text style={styles.gapMeta}>
+              {DOMAIN_SHORT_LABELS[gap.domain].toUpperCase()} ·{' '}
+              <Text style={styles.gapReason}>{GAP_REASON_LABELS[gap.reason]}</Text>
+            </Text>
+            <Text style={styles.gapText}>{gap.question_text}</Text>
+          </View>
         ))}
       </View>
 
       {/* [ANAL-04] Assertions — validation Human-in-the-Loop */}
-      <Text style={styles.sectionTitle}>
-        Assertions du CR ({gate.total_count - gate.pending_count}/{gate.total_count} validées)
-      </Text>
+      <SectionLabel>
+        {`Assertions du CR (${gate.total_count - gate.pending_count}/${gate.total_count} validées)`}
+      </SectionLabel>
       {assertions.map((assertion) => (
         <AssertionRow
           key={assertion.id}
@@ -182,7 +191,7 @@ export default function AnalyseScreen(): React.ReactElement {
       ))}
 
       <View style={styles.card}>
-        <Text style={styles.mutedText}>Nouvelle assertion (déclaration factuelle de l’entretien)</Text>
+        <Text style={styles.mutedText}>Nouvelle assertion — déclaration factuelle de l’entretien</Text>
         <ChipSelector
           label="Domaine"
           options={[...sessionDomains, 'general'] as readonly AssertionDomain[]}
@@ -204,7 +213,7 @@ export default function AnalyseScreen(): React.ReactElement {
       </View>
 
       {/* ACC-02 : export désactivé tant que des assertions restent à valider */}
-      <Text style={styles.sectionTitle}>Export du compte rendu</Text>
+      <SectionLabel>Export du compte rendu</SectionLabel>
       {!gate.allowed && (
         <Text style={styles.warningText}>
           {gate.total_count === 0
@@ -247,49 +256,54 @@ const styles = StyleSheet.create({
     gap: spacing.md,
     paddingBottom: spacing.xl * 2,
   },
-  title: {
-    color: colors.text,
-    fontSize: fontSizes.title,
-    fontWeight: '700',
-  },
-  subtitle: {
-    color: colors.textMuted,
-    fontSize: fontSizes.emphasis,
-  },
-  sectionTitle: {
-    color: colors.text,
-    fontSize: fontSizes.emphasis,
-    fontWeight: '600',
-    marginTop: spacing.sm,
-  },
   card: {
     backgroundColor: colors.surface,
-    borderRadius: 12,
+    borderRadius: radii.md,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: colors.hairline,
     padding: spacing.md,
-    gap: spacing.sm,
+    gap: spacing.sm + 2,
   },
   coverageRow: {
+    gap: spacing.sm,
+  },
+  coverageRowRule: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: colors.hairline,
+    paddingTop: spacing.sm + 2,
+  },
+  coverageHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'baseline',
   },
   coverageDomain: {
     color: colors.text,
     fontSize: fontSizes.body,
+    fontFamily: fonts.medium,
   },
   coverageValue: {
     color: colors.textMuted,
     fontSize: fontSizes.body,
     fontVariant: ['tabular-nums'],
   },
+  gapRow: {
+    gap: spacing.xs,
+  },
+  gapMeta: {
+    color: colors.textMuted,
+    fontSize: fontSizes.body,
+    fontFamily: fonts.medium,
+    letterSpacing: 0.6,
+  },
+  gapReason: {
+    color: colors.warningText,
+    letterSpacing: 0,
+  },
   gapText: {
     color: colors.text,
     fontSize: fontSizes.body,
-    lineHeight: 24,
-  },
-  gapReason: {
-    color: colors.warning,
+    lineHeight: 25,
   },
   mutedText: {
     color: colors.textMuted,
@@ -297,16 +311,16 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   warningText: {
-    color: colors.warning,
+    color: colors.warningText,
     fontSize: fontSizes.body,
     lineHeight: 24,
   },
   input: {
     backgroundColor: colors.surfaceRaised,
-    borderRadius: 8,
+    borderRadius: radii.sm,
     color: colors.text,
     fontSize: fontSizes.body,
-    padding: spacing.sm,
+    padding: spacing.sm + 2,
     minHeight: 72,
     textAlignVertical: 'top',
   },
@@ -323,10 +337,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: spacing.xl,
+    gap: spacing.sm,
+  },
+  emptyTitle: {
+    color: colors.text,
+    fontSize: fontSizes.title,
+    fontFamily: fonts.display,
+    fontWeight: '600',
   },
   emptyText: {
     color: colors.textMuted,
-    fontSize: fontSizes.emphasis,
+    fontSize: fontSizes.body,
     textAlign: 'center',
   },
 });

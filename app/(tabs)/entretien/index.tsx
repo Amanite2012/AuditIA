@@ -23,7 +23,7 @@ import {
   hapticThemeCompleted,
 } from '../../../components/shared/haptics';
 import { LlmModeBadge } from '../../../components/shared/LlmModeBadge';
-import { colors, fontSizes, spacing } from '../../../components/shared/theme';
+import { colors, eyebrowLetterSpacing, fonts, fontSizes, radii, spacing } from '../../../components/shared/theme';
 import { AUTOSAVE_INTERVAL_MS } from '../../../features/session/session.service';
 import { useSessionStore } from '../../../store/session.store';
 import { useUiStore } from '../../../store/ui.store';
@@ -123,8 +123,14 @@ export default function EntretienScreen(): React.ReactElement {
   if (!config || !currentItem) {
     return (
       <View style={[styles.empty, { paddingTop: insets.top }]}>
-        <Text style={styles.emptyText}>Aucune session en cours.</Text>
-        <AppButton label="Aller au briefing" variant="primary" onPress={() => router.push('/briefing')} />
+        <Text style={styles.emptyTitle}>Aucune session en cours</Text>
+        <Text style={styles.emptyText}>Préparez l’entretien depuis le module Briefing.</Text>
+        <AppButton
+          label="Aller au briefing"
+          variant="primary"
+          style={styles.emptyButton}
+          onPress={() => router.push('/briefing')}
+        />
       </View>
     );
   }
@@ -138,13 +144,16 @@ export default function EntretienScreen(): React.ReactElement {
           <Text style={styles.silentQuestion}>{currentItem.question_text}</Text>
           <View style={styles.silentActions}>
             <AppButton label="Couvert" style={styles.actionFlex} onPress={() => void mark('couvert')} />
-            <AppButton label="Suivant" style={styles.actionFlex} onPress={() => { goNext(); void hapticNextQuestion(); }} />
+            <AppButton
+              label="Suivant"
+              style={styles.actionFlex}
+              onPress={() => {
+                goNext();
+                void hapticNextQuestion();
+              }}
+            />
           </View>
-          <Pressable
-            accessibilityRole="button"
-            onPress={toggleSilentMode}
-            style={styles.silentExit}
-          >
+          <Pressable accessibilityRole="button" onPress={toggleSilentMode} style={styles.silentExit}>
             <Text style={styles.silentExitText}>Quitter le mode silencieux</Text>
           </Pressable>
         </View>
@@ -157,12 +166,16 @@ export default function EntretienScreen(): React.ReactElement {
       <View style={[styles.container, { paddingTop: insets.top + spacing.sm }]}>
         {/* Header minimal (7.2) */}
         <View style={styles.header}>
-          <Text style={styles.timer}>{formatElapsed(sessionStartedAt, now)} / {config.duration_min} min</Text>
+          <Text style={styles.timer}>
+            {formatElapsed(sessionStartedAt, now)}
+            <Text style={styles.timerTotal}> / {config.duration_min} min</Text>
+          </Text>
           <LlmModeBadge mode={llmMode} />
         </View>
+        <View style={styles.headerRule} />
 
         <Text style={styles.domainLabel}>
-          Domaine : {currentDomain ? DOMAIN_SHORT_LABELS[currentDomain] : '—'}
+          {(currentDomain ? DOMAIN_SHORT_LABELS[currentDomain] : '—').toUpperCase()}
         </Text>
         {/* [ENT-06] Couverture temps réel */}
         <CoverageBar percent={coverage?.percent ?? 0} />
@@ -192,12 +205,36 @@ export default function EntretienScreen(): React.ReactElement {
 
         {/* [ENT-09] + [UX-CRIT-01] Actions en zone de pouce */}
         <View style={styles.actionsRow}>
-          <AppButton label="✓ Couvert" variant="success" style={styles.actionFlex} onPress={() => void mark('couvert')} testID="mark-couvert" />
-          <AppButton label="→ Suivant" style={styles.actionFlex} onPress={() => { goNext(); void hapticNextQuestion(); }} testID="go-next" />
+          <AppButton
+            label="Couvert"
+            variant="success"
+            style={styles.actionFlex}
+            onPress={() => void mark('couvert')}
+            testID="mark-couvert"
+          />
+          <AppButton
+            label="Suivant"
+            style={styles.actionFlex}
+            onPress={() => {
+              goNext();
+              void hapticNextQuestion();
+            }}
+            testID="go-next"
+          />
         </View>
         <View style={styles.actionsRow}>
-          <AppButton label="À approfondir" variant="warning" style={styles.actionFlex} onPress={() => void mark('a_approfondir')} />
-          <AppButton label="Non obtenu" variant="danger" style={styles.actionFlex} onPress={() => void mark('non_obtenu')} />
+          <AppButton
+            label="À approfondir"
+            variant="warning"
+            style={styles.actionFlex}
+            onPress={() => void mark('a_approfondir')}
+          />
+          <AppButton
+            label="Non obtenu"
+            variant="danger"
+            style={styles.actionFlex}
+            onPress={() => void mark('non_obtenu')}
+          />
         </View>
         <View style={styles.actionsRow}>
           {/* [ENT-08] activable en un tap depuis l'écran principal */}
@@ -217,7 +254,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: spacing.md,
-    gap: spacing.sm,
+    gap: spacing.sm + 2,
   },
   header: {
     height: 44,
@@ -225,15 +262,25 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  headerRule: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: colors.border,
+  },
   timer: {
     color: colors.text,
     fontSize: fontSizes.emphasis,
+    fontFamily: fonts.medium,
     fontVariant: ['tabular-nums'],
-    fontWeight: '600',
+  },
+  timerTotal: {
+    color: colors.textMuted,
+    fontFamily: fonts.text,
   },
   domainLabel: {
     color: colors.textMuted,
     fontSize: fontSizes.body,
+    fontFamily: fonts.medium,
+    letterSpacing: eyebrowLetterSpacing,
   },
   questionZone: {
     flex: 1,
@@ -243,10 +290,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.border,
-    borderRadius: 12,
+    borderRadius: radii.md,
     color: colors.text,
     fontSize: fontSizes.body,
-    padding: spacing.sm,
+    padding: spacing.sm + 2,
     minHeight: 64,
     maxHeight: 120,
     textAlignVertical: 'top',
@@ -263,12 +310,24 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: spacing.lg,
+    gap: spacing.md,
     padding: spacing.xl,
+  },
+  emptyTitle: {
+    color: colors.text,
+    fontSize: fontSizes.title,
+    fontFamily: fonts.display,
+    fontWeight: '600',
   },
   emptyText: {
     color: colors.textMuted,
-    fontSize: fontSizes.emphasis,
+    fontSize: fontSizes.body,
+    textAlign: 'center',
+  },
+  emptyButton: {
+    alignSelf: 'stretch',
+    maxWidth: 320,
+    marginTop: spacing.sm,
   },
   silentContainer: {
     flex: 1,
@@ -278,9 +337,10 @@ const styles = StyleSheet.create({
     gap: spacing.lg,
   },
   silentQuestion: {
-    color: '#6B7280',
+    color: '#6E6B64',
     fontSize: fontSizes.emphasis,
-    lineHeight: 28,
+    fontFamily: fonts.display,
+    lineHeight: 29,
   },
   silentActions: {
     flexDirection: 'row',
@@ -292,7 +352,7 @@ const styles = StyleSheet.create({
     minHeight: 48,
   },
   silentExitText: {
-    color: '#4B5563',
+    color: '#55534E',
     fontSize: fontSizes.body,
   },
 });

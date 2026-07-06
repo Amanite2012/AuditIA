@@ -1,11 +1,13 @@
 /**
  * Sélecteur à puces pour les champs de briefing [BRIEF-01..05].
  * Composant UI pur : la sélection remonte par callback, aucune logique métier.
+ * Puce sélectionnée : remplissage claret + ivoire (contraste 7:1).
  */
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { colors, fontSizes, spacing, touchTargetMinHeight } from '../shared/theme';
+import { SectionLabel } from '../shared/SectionLabel';
+import { colors, fonts, fontSizes, radii, spacing } from '../shared/theme';
 
 interface ChipSelectorProps<T extends string | number> {
   label: string;
@@ -26,10 +28,7 @@ export function ChipSelector<T extends string | number>({
 }: ChipSelectorProps<T>): React.ReactElement {
   return (
     <View style={styles.group}>
-      <Text style={styles.label}>
-        {label}
-        {required ? ' *' : ''}
-      </Text>
+      <SectionLabel>{required ? `${label} *` : label}</SectionLabel>
       <View style={styles.chips}>
         {options.map((option) => {
           const isSelected = selected.includes(option);
@@ -39,7 +38,7 @@ export function ChipSelector<T extends string | number>({
               accessibilityRole="button"
               accessibilityState={{ selected: isSelected }}
               onPress={() => onToggle(option)}
-              style={[styles.chip, isSelected && styles.chipSelected]}
+              style={({ pressed }) => [styles.chip, isSelected && styles.chipSelected, pressed && styles.chipPressed]}
             >
               <Text style={[styles.chipText, isSelected && styles.chipTextSelected]}>{optionLabels[option]}</Text>
             </Pressable>
@@ -52,12 +51,7 @@ export function ChipSelector<T extends string | number>({
 
 const styles = StyleSheet.create({
   group: {
-    gap: spacing.sm,
-  },
-  label: {
-    color: colors.textMuted,
-    fontSize: fontSizes.body,
-    fontWeight: '600',
+    gap: spacing.sm + 2,
   },
   chips: {
     flexDirection: 'row',
@@ -65,12 +59,12 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   chip: {
-    minHeight: touchTargetMinHeight - 8,
+    minHeight: 44,
     justifyContent: 'center',
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
-    borderRadius: 20,
-    backgroundColor: colors.surface,
+    borderRadius: radii.lg + 8,
+    backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: colors.border,
   },
@@ -78,12 +72,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.accent,
     borderColor: colors.accent,
   },
+  chipPressed: {
+    opacity: 0.72,
+  },
   chipText: {
     color: colors.text,
     fontSize: fontSizes.body,
+    fontFamily: fonts.text,
   },
   chipTextSelected: {
-    color: '#0B1220',
-    fontWeight: '600',
+    color: colors.onAccent,
+    fontFamily: fonts.medium,
   },
 });

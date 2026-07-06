@@ -1,14 +1,14 @@
 /**
  * Carte de question — [ENT-01] : la question courante est une SUGGESTION,
- * jamais une obligation. Affiche la condition parente (arbre décisionnel) et
- * les relances du référentiel.
+ * jamais une obligation. Question en serif (registre rapport d'audit),
+ * condition parente et relances séparées par un filet fin.
  */
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import type { TreeQuestion } from '../../features/briefing/briefing.types';
 import type { ItemStatus } from '../../types';
-import { colors, fontSizes, spacing } from '../shared/theme';
+import { colors, eyebrowLetterSpacing, fonts, fontSizes, radii, spacing } from '../shared/theme';
 
 interface QuestionCardProps {
   questionText: string;
@@ -27,9 +27,9 @@ const STATUS_LABELS: Record<ItemStatus, string> = {
 
 const STATUS_COLORS: Record<ItemStatus, string> = {
   pending: colors.textMuted,
-  couvert: colors.success,
-  a_approfondir: colors.warning,
-  non_obtenu: colors.danger,
+  couvert: colors.successText,
+  a_approfondir: colors.warningText,
+  non_obtenu: colors.dangerText,
   skipped: colors.textMuted,
 };
 
@@ -37,20 +37,19 @@ export function QuestionCard({ questionText, meta, status, position }: QuestionC
   return (
     <View style={styles.card}>
       <View style={styles.headerRow}>
-        <Text style={styles.suggestionLabel}>Question suggérée · {position}</Text>
+        <Text style={styles.eyebrow}>QUESTION SUGGÉRÉE · {position}</Text>
         <Text style={[styles.status, { color: STATUS_COLORS[status] }]}>{STATUS_LABELS[status]}</Text>
       </View>
-      {meta?.parent && (
-        <Text style={styles.condition}>Si : {meta.parent.condition}</Text>
-      )}
+      {meta?.parent && <Text style={styles.condition}>Si : {meta.parent.condition}</Text>}
       <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent}>
         <Text style={styles.question}>{questionText}</Text>
         {meta?.follow_up_questions && meta.follow_up_questions.length > 0 && (
           <View style={styles.followUps}>
-            <Text style={styles.followUpTitle}>Relances possibles</Text>
+            <View style={styles.rule} />
+            <Text style={styles.followUpTitle}>RELANCES</Text>
             {meta.follow_up_questions.map((followUp) => (
               <Text key={followUp} style={styles.followUp}>
-                – {followUp}
+                –  {followUp}
               </Text>
             ))}
           </View>
@@ -64,27 +63,31 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     backgroundColor: colors.surface,
-    borderRadius: 16,
+    borderRadius: radii.lg,
     borderWidth: 1,
-    borderColor: colors.border,
-    padding: spacing.md,
+    borderColor: colors.hairline,
+    padding: spacing.md + 4,
     gap: spacing.sm,
   },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gap: spacing.sm,
   },
-  suggestionLabel: {
+  eyebrow: {
     color: colors.textMuted,
     fontSize: fontSizes.body,
+    fontFamily: fonts.medium,
+    letterSpacing: eyebrowLetterSpacing,
+    flexShrink: 1,
   },
   status: {
     fontSize: fontSizes.body,
-    fontWeight: '600',
+    fontFamily: fonts.medium,
   },
   condition: {
-    color: colors.warning,
+    color: colors.warningText,
     fontSize: fontSizes.body,
     fontStyle: 'italic',
   },
@@ -97,20 +100,26 @@ const styles = StyleSheet.create({
   question: {
     color: colors.text,
     fontSize: fontSizes.large,
-    lineHeight: 30,
-    fontWeight: '600',
+    lineHeight: 33,
+    fontFamily: fonts.display,
   },
   followUps: {
-    gap: spacing.xs,
+    gap: spacing.sm,
+  },
+  rule: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: colors.border,
+    marginBottom: spacing.xs,
   },
   followUpTitle: {
     color: colors.textMuted,
     fontSize: fontSizes.body,
-    fontWeight: '600',
+    fontFamily: fonts.medium,
+    letterSpacing: eyebrowLetterSpacing,
   },
   followUp: {
     color: colors.textMuted,
     fontSize: fontSizes.body,
-    lineHeight: 24,
+    lineHeight: 25,
   },
 });

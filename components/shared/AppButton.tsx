@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, type ViewStyle } from 'react-native';
 
-import { colors, fontSizes, spacing, touchTargetMinHeight } from './theme';
+import { colors, fonts, fontSizes, radii, spacing, touchTargetMinHeight } from './theme';
 
 interface AppButtonProps {
   label: string;
@@ -13,15 +13,23 @@ interface AppButtonProps {
   testID?: string;
 }
 
-const VARIANT_COLORS: Record<NonNullable<AppButtonProps['variant']>, { bg: string; fg: string }> = {
-  primary: { bg: colors.accent, fg: '#0B1220' },
-  secondary: { bg: colors.surfaceRaised, fg: colors.text },
-  success: { bg: colors.success, fg: '#0B1220' },
-  warning: { bg: colors.warning, fg: '#0B1220' },
-  danger: { bg: colors.danger, fg: '#0B1220' },
+/**
+ * Registre sobre : seul `primary` est plein (claret). Les statuts sont des
+ * boutons « quiets » — fond surface, bordure de la marque de statut, libellé
+ * dans la teinte texte du statut (contraste AA vérifié dans theme.ts).
+ */
+const VARIANTS: Record<
+  NonNullable<AppButtonProps['variant']>,
+  { bg: string; fg: string; borderColor: string }
+> = {
+  primary: { bg: colors.accent, fg: colors.onAccent, borderColor: colors.accent },
+  secondary: { bg: 'transparent', fg: colors.text, borderColor: colors.border },
+  success: { bg: colors.surface, fg: colors.successText, borderColor: colors.success },
+  warning: { bg: colors.surface, fg: colors.warningText, borderColor: colors.warning },
+  danger: { bg: colors.surface, fg: colors.dangerText, borderColor: colors.danger },
 };
 
-/** Bouton standard : cible tactile ≥ 48pt [UX-CRIT-01], texte ≥ 16sp (7.4). */
+/** Bouton standard : cible tactile ≥ 52pt [UX-CRIT-01], texte ≥ 16sp (7.4). */
 export function AppButton({
   label,
   onPress,
@@ -31,7 +39,7 @@ export function AppButton({
   accessibilityHint,
   testID,
 }: AppButtonProps): React.ReactElement {
-  const palette = VARIANT_COLORS[variant];
+  const palette = VARIANTS[variant];
   return (
     <Pressable
       accessibilityRole="button"
@@ -42,7 +50,11 @@ export function AppButton({
       onPress={onPress}
       style={({ pressed }) => [
         styles.base,
-        { backgroundColor: palette.bg, opacity: disabled ? 0.4 : pressed ? 0.75 : 1 },
+        {
+          backgroundColor: palette.bg,
+          borderColor: palette.borderColor,
+          opacity: disabled ? 0.4 : pressed ? 0.72 : 1,
+        },
         style,
       ]}
     >
@@ -56,7 +68,8 @@ export function AppButton({
 const styles = StyleSheet.create({
   base: {
     minHeight: touchTargetMinHeight,
-    borderRadius: 12,
+    borderRadius: radii.md,
+    borderWidth: 1,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
     alignItems: 'center',
@@ -64,7 +77,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: fontSizes.body,
-    fontWeight: '600',
+    fontFamily: fonts.medium,
+    letterSpacing: 0.3,
     textAlign: 'center',
   },
 });

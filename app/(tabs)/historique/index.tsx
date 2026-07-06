@@ -10,7 +10,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DOMAIN_SHORT_LABELS } from '../../../components/briefing/labels';
 import { AppButton } from '../../../components/shared/AppButton';
 import { useDb } from '../../../components/shared/DbProvider';
-import { colors, fontSizes, spacing } from '../../../components/shared/theme';
+import { ScreenHeader } from '../../../components/shared/ScreenHeader';
+import { colors, fonts, fontSizes, radii, spacing } from '../../../components/shared/theme';
 import { deleteSession, listSessions } from '../../../features/session/session.service';
 import { useSessionStore } from '../../../store/session.store';
 import type { Domain, SessionRow, SessionStatus } from '../../../types';
@@ -24,9 +25,9 @@ const STATUS_LABELS: Record<SessionStatus, string> = {
 
 const STATUS_COLORS: Record<SessionStatus, string> = {
   draft: colors.textMuted,
-  in_progress: colors.warning,
-  completed: colors.accent,
-  exported: colors.success,
+  in_progress: colors.warningText,
+  completed: colors.accentText,
+  exported: colors.successText,
 };
 
 export default function HistoriqueScreen(): React.ReactElement {
@@ -77,7 +78,7 @@ export default function HistoriqueScreen(): React.ReactElement {
 
   return (
     <View style={[styles.container, { paddingTop: insets.top + spacing.md }]}>
-      <Text style={styles.title}>Historique</Text>
+      <ScreenHeader eyebrow="Sessions sur l’appareil" title="Historique" />
       <FlatList
         data={sessions}
         keyExtractor={(session) => session.id}
@@ -88,10 +89,14 @@ export default function HistoriqueScreen(): React.ReactElement {
           return (
             <View style={styles.card}>
               <View style={styles.cardHeader}>
-                <Text style={styles.appName}>{session.app_name}</Text>
-                <Text style={[styles.status, { color: STATUS_COLORS[session.status] }]}>
-                  {STATUS_LABELS[session.status]}
+                <Text style={styles.appName} numberOfLines={1}>
+                  {session.app_name}
                 </Text>
+                <View style={[styles.statusPill, { borderColor: STATUS_COLORS[session.status] }]}>
+                  <Text style={[styles.statusText, { color: STATUS_COLORS[session.status] }]}>
+                    {STATUS_LABELS[session.status]}
+                  </Text>
+                </View>
               </View>
               <Text style={styles.metaText}>
                 {new Date(session.created_at).toLocaleDateString('fr-FR')} · {session.duration_min} min ·{' '}
@@ -99,7 +104,7 @@ export default function HistoriqueScreen(): React.ReactElement {
               </Text>
               {session.hash_sha256 && (
                 <Text style={styles.hashText} numberOfLines={1}>
-                  SHA-256 : {session.hash_sha256}
+                  SHA-256 · {session.hash_sha256}
                 </Text>
               )}
               <View style={styles.actions}>
@@ -129,12 +134,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
     paddingHorizontal: spacing.md,
-  },
-  title: {
-    color: colors.text,
-    fontSize: fontSizes.title,
-    fontWeight: '700',
-    marginBottom: spacing.md,
+    gap: spacing.md,
   },
   list: {
     gap: spacing.md,
@@ -148,25 +148,34 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: colors.surface,
-    borderRadius: 12,
+    borderRadius: radii.md,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: colors.hairline,
     padding: spacing.md,
-    gap: spacing.sm,
+    gap: spacing.sm + 2,
   },
   cardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gap: spacing.sm,
   },
   appName: {
+    flexShrink: 1,
     color: colors.text,
-    fontSize: fontSizes.emphasis,
+    fontSize: fontSizes.large,
+    fontFamily: fonts.display,
     fontWeight: '600',
   },
-  status: {
+  statusPill: {
+    borderWidth: 1,
+    borderRadius: radii.lg,
+    paddingHorizontal: spacing.sm + 2,
+    paddingVertical: 3,
+  },
+  statusText: {
     fontSize: fontSizes.body,
-    fontWeight: '600',
+    fontFamily: fonts.medium,
   },
   metaText: {
     color: colors.textMuted,
@@ -175,6 +184,7 @@ const styles = StyleSheet.create({
   hashText: {
     color: colors.textMuted,
     fontSize: fontSizes.body,
+    fontVariant: ['tabular-nums'],
   },
   actions: {
     flexDirection: 'row',

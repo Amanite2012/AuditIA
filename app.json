@@ -7,11 +7,11 @@
     "icon": "./assets/images/icon.png",
     "scheme": "auditia",
     "userInterfaceStyle": "dark",
-    "backgroundColor": "#0F1115",
+    "backgroundColor": "#15161A",
     "android": {
       "package": "com.auditia.assistant",
       "adaptiveIcon": {
-        "backgroundColor": "#0F1115",
+        "backgroundColor": "#15161A",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
@@ -23,7 +23,7 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#0F1115",
+          "backgroundColor": "#15161A",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }

@@ -18,7 +18,9 @@ import {
 } from '../../../components/briefing/labels';
 import { AppButton } from '../../../components/shared/AppButton';
 import { LlmModeBadge } from '../../../components/shared/LlmModeBadge';
-import { colors, fontSizes, spacing } from '../../../components/shared/theme';
+import { ScreenHeader } from '../../../components/shared/ScreenHeader';
+import { SectionLabel } from '../../../components/shared/SectionLabel';
+import { colors, fonts, fontSizes, radii, spacing } from '../../../components/shared/theme';
 import { validateSessionConfigInput } from '../../../features/briefing/briefing.service';
 import type { SessionConfigInput } from '../../../features/briefing/briefing.types';
 import { useSessionStore } from '../../../store/session.store';
@@ -83,19 +85,17 @@ export default function BriefingScreen(): React.ReactElement {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.flex}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
+    <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <ScrollView
         style={styles.flex}
         contentContainerStyle={[styles.content, { paddingTop: insets.top + spacing.md }]}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.headerRow}>
-          <Text style={styles.title}>Briefing pré-session</Text>
-          <LlmModeBadge mode={llmMode} />
-        </View>
+        <ScreenHeader
+          eyebrow="Module 1 · Pré-session"
+          title="Briefing"
+          trailing={<LlmModeBadge mode={llmMode} />}
+        />
 
         <ChipSelector
           label="Type de mission"
@@ -105,14 +105,14 @@ export default function BriefingScreen(): React.ReactElement {
           onToggle={setMissionType}
         />
         <ChipSelector
-          label="Domaines ITGC (au moins un)"
+          label="Domaines ITGC — au moins un"
           options={DOMAINS}
           optionLabels={DOMAIN_SHORT_LABELS}
           selected={domains}
           onToggle={toggleDomain}
         />
         <View style={styles.group}>
-          <Text style={styles.label}>Application auditée *</Text>
+          <SectionLabel>Application auditée *</SectionLabel>
           <TextInput
             style={styles.input}
             value={appName}
@@ -152,9 +152,7 @@ export default function BriefingScreen(): React.ReactElement {
           accessibilityHint="Crée la session et ouvre l’écran d’entretien"
           testID="briefing-start"
         />
-        {!isValid && (
-          <Text style={styles.hint}>Renseignez tous les champs obligatoires (*) pour démarrer.</Text>
-        )}
+        {!isValid && <Text style={styles.hint}>Renseignez tous les champs obligatoires (*) pour démarrer.</Text>}
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -170,34 +168,20 @@ const styles = StyleSheet.create({
     gap: spacing.lg,
     paddingBottom: spacing.xl,
   },
-  headerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  title: {
-    color: colors.text,
-    fontSize: fontSizes.title,
-    fontWeight: '700',
-  },
   group: {
-    gap: spacing.sm,
-  },
-  label: {
-    color: colors.textMuted,
-    fontSize: fontSizes.body,
-    fontWeight: '600',
+    gap: spacing.sm + 2,
   },
   input: {
     backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.border,
-    borderRadius: 12,
+    borderRadius: radii.md,
     color: colors.text,
     fontSize: fontSizes.body,
+    fontFamily: fonts.text,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
-    minHeight: 48,
+    minHeight: 52,
   },
   hint: {
     color: colors.textMuted,

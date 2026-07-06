@@ -9,7 +9,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { AppButton } from './AppButton';
-import { colors, fontSizes, spacing } from './theme';
+import { colors, eyebrowLetterSpacing, fonts, fontSizes, spacing } from './theme';
 
 type GateState = 'checking' | 'locked' | 'unlocked' | 'unavailable';
 
@@ -25,7 +25,7 @@ export function BiometricGate({ children }: { children: React.ReactNode }): Reac
       return;
     }
     const result = await LocalAuthentication.authenticateAsync({
-      promptMessage: 'Déverrouiller Audit Interview Assistant',
+      promptMessage: 'Déverrouiller Audit IA',
       cancelLabel: 'Annuler',
       disableDeviceFallback: false,
     });
@@ -43,7 +43,13 @@ export function BiometricGate({ children }: { children: React.ReactNode }): Reac
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Audit Interview Assistant</Text>
+      <View style={styles.wordmark}>
+        <View style={styles.rule} />
+        <Text style={styles.eyebrow}>IT AUDIT INTERVIEW ASSISTANT</Text>
+        <Text style={styles.title}>Audit IA</Text>
+        <View style={styles.rule} />
+      </View>
+
       {state === 'checking' && <Text style={styles.message}>Authentification en cours…</Text>}
       {state === 'locked' && (
         <>
@@ -51,6 +57,7 @@ export function BiometricGate({ children }: { children: React.ReactNode }): Reac
           <AppButton
             label="Réessayer"
             variant="primary"
+            style={styles.button}
             onPress={() => {
               setState('checking');
               void authenticate();
@@ -68,6 +75,7 @@ export function BiometricGate({ children }: { children: React.ReactNode }): Reac
           <AppButton
             label="Vérifier à nouveau"
             variant="primary"
+            style={styles.button}
             onPress={() => {
               setState('checking');
               void authenticate();
@@ -88,15 +96,38 @@ const styles = StyleSheet.create({
     padding: spacing.xl,
     gap: spacing.lg,
   },
+  wordmark: {
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    gap: spacing.md,
+    marginBottom: spacing.lg,
+  },
+  rule: {
+    alignSelf: 'stretch',
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: colors.border,
+  },
+  eyebrow: {
+    color: colors.textMuted,
+    fontSize: fontSizes.body,
+    fontFamily: fonts.medium,
+    letterSpacing: eyebrowLetterSpacing,
+  },
   title: {
     color: colors.text,
-    fontSize: fontSizes.title,
-    fontWeight: '700',
+    fontSize: 40,
+    fontFamily: fonts.display,
+    fontWeight: '600',
   },
   message: {
     color: colors.textMuted,
     fontSize: fontSizes.body,
     textAlign: 'center',
     lineHeight: 24,
+    maxWidth: 320,
+  },
+  button: {
+    alignSelf: 'stretch',
+    maxWidth: 320,
   },
 });
