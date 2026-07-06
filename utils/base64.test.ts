@@ -2,13 +2,19 @@
 import { base64ToBytes } from './base64';
 
 describe('base64ToBytes', () => {
-  it('décode un contenu encodé par Buffer (round-trip)', () => {
-    const samples = ['', 'a', 'ab', 'abc', 'Compte Rendu — éàü 世界', 'PK\x03\x04binaire\x00\xff'];
+  it('décode un contenu texte encodé par Buffer (round-trip UTF-8)', () => {
+    const samples = ['', 'a', 'ab', 'abc', 'Compte Rendu — éàü 世界'];
     for (const sample of samples) {
-      const encoded = Buffer.from(sample, 'binary').toString('base64');
+      const encoded = Buffer.from(sample, 'utf8').toString('base64');
       const decoded = base64ToBytes(encoded);
-      expect(Buffer.from(decoded).toString('binary')).toBe(sample);
+      expect(Buffer.from(decoded).toString('utf8')).toBe(sample);
     }
+  });
+
+  it('décode un contenu binaire arbitraire (round-trip octets)', () => {
+    const bytes = Uint8Array.from([0x50, 0x4b, 0x03, 0x04, 0x00, 0xff, 0x80, 0x7f, 0x01]);
+    const encoded = Buffer.from(bytes).toString('base64');
+    expect(Array.from(base64ToBytes(encoded))).toEqual(Array.from(bytes));
   });
 
   it('tolère les sauts de ligne et le padding', () => {
