@@ -17,7 +17,6 @@ export function BiometricGate({ children }: { children: React.ReactNode }): Reac
   const [state, setState] = useState<GateState>('checking');
 
   const authenticate = useCallback(async () => {
-    setState('checking');
     const hasHardware = await LocalAuthentication.hasHardwareAsync();
     const enrolled = await LocalAuthentication.isEnrolledAsync();
     const securityLevel = await LocalAuthentication.getEnrolledLevelAsync();
@@ -34,6 +33,9 @@ export function BiometricGate({ children }: { children: React.ReactNode }): Reac
   }, []);
 
   useEffect(() => {
+    // L'authentification DOIT se déclencher à l'affichage du verrou (section
+    // 8.1) ; les setState n'interviennent qu'après les réponses async de l'OS.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void authenticate();
   }, [authenticate]);
 
@@ -46,7 +48,14 @@ export function BiometricGate({ children }: { children: React.ReactNode }): Reac
       {state === 'locked' && (
         <>
           <Text style={styles.message}>Authentification requise pour accéder aux données d’entretien.</Text>
-          <AppButton label="Réessayer" variant="primary" onPress={() => void authenticate()} />
+          <AppButton
+            label="Réessayer"
+            variant="primary"
+            onPress={() => {
+              setState('checking');
+              void authenticate();
+            }}
+          />
         </>
       )}
       {state === 'unavailable' && (
@@ -56,7 +65,14 @@ export function BiometricGate({ children }: { children: React.ReactNode }): Reac
             protéger les données d’entretien (exigence de sécurité). Configurez-le dans les réglages Android puis
             relancez l’application.
           </Text>
-          <AppButton label="Vérifier à nouveau" variant="primary" onPress={() => void authenticate()} />
+          <AppButton
+            label="Vérifier à nouveau"
+            variant="primary"
+            onPress={() => {
+              setState('checking');
+              void authenticate();
+            }}
+          />
         </>
       )}
     </View>

@@ -61,7 +61,7 @@ export default function EntretienScreen(): React.ReactElement {
   const toggleSilentMode = useUiStore((s) => s.toggleSilentMode);
   const llmMode = useUiStore((s) => s.llmMode);
 
-  const [now, setNow] = useState(Date.now());
+  const [now, setNow] = useState(() => Date.now());
 
   // Minuteur d'entretien (header 7.2), suspendu en mode silencieux
   useEffect(() => {

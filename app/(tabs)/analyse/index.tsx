@@ -8,9 +8,10 @@
 import Constants from 'expo-constants';
 import * as Crypto from 'expo-crypto';
 import { File, Paths } from 'expo-file-system';
+import { useFocusEffect } from 'expo-router';
 import { usePreventScreenCapture } from 'expo-screen-capture';
 import * as Sharing from 'expo-sharing';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -71,9 +72,12 @@ export default function AnalyseScreen(): React.ReactElement {
     setGate(await getExportGate(db, config.id));
   }, [db, config]);
 
-  useEffect(() => {
-    void refresh();
-  }, [refresh]);
+  // Recharge les données à chaque retour sur l'onglet (fin d'entretien, etc.)
+  useFocusEffect(
+    useCallback(() => {
+      void refresh();
+    }, [refresh])
+  );
 
   if (!config) {
     return (
