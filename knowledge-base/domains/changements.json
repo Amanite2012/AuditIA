@@ -1,0 +1,199 @@
+[
+  {
+    "id": "changements_001",
+    "domain": "changements",
+    "theme": "processus_changement",
+    "question_text": "Pouvez-vous décrire le processus de gestion des changements applicatifs, de la demande à la mise en production ?",
+    "follow_up_questions": [
+      "Le processus est-il formalisé dans une procédure ?",
+      "S'applique-t-il à tous les types de changements (évolutions, correctifs, paramétrage) ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90]
+  },
+  {
+    "id": "changements_002",
+    "domain": "changements",
+    "theme": "outil_gestion",
+    "question_text": "Quel outil est utilisé pour suivre les demandes de changement, et que trace-t-il ?",
+    "follow_up_questions": [
+      "Chaque mise en production est-elle rattachée à un ticket ?",
+      "L'outil conserve-t-il l'historique des approbations ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90]
+  },
+  {
+    "id": "changements_003",
+    "domain": "changements",
+    "theme": "approbation_changements",
+    "question_text": "Qui approuve un changement avant sa mise en production, et à quelles étapes ?",
+    "follow_up_questions": [
+      "L'approbation métier est-elle requise en plus de l'approbation IT ?",
+      "Existe-t-il un comité des changements (CAB) et à quelle fréquence se réunit-il ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90]
+  },
+  {
+    "id": "changements_004",
+    "domain": "changements",
+    "theme": "tests_changements",
+    "question_text": "Quels tests sont réalisés avant la mise en production d'un changement, et par qui ?",
+    "follow_up_questions": [
+      "Les tests utilisateurs (recette métier) sont-ils documentés ?",
+      "Les résultats de tests conditionnent-ils formellement le passage en production ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90]
+  },
+  {
+    "id": "changements_005",
+    "domain": "changements",
+    "theme": "separation_environnements",
+    "question_text": "Comment les environnements de développement, de test et de production sont-ils séparés ?",
+    "follow_up_questions": [
+      "Les développeurs ont-ils accès à l'environnement de production ?",
+      "Les données de production sont-elles utilisées en environnement de test, et si oui sont-elles anonymisées ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90]
+  },
+  {
+    "id": "changements_006",
+    "domain": "changements",
+    "theme": "acces_mise_en_production",
+    "question_text": "Qui est habilité à déployer en production, et comment cette capacité est-elle restreinte ?",
+    "follow_up_questions": [
+      "Le déploiement est-il réalisé par une équipe distincte du développement ?",
+      "Le déploiement est-il automatisé (CI/CD) et l'outil d'automatisation est-il lui-même contrôlé ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [45, 60, 90]
+  },
+  {
+    "id": "changements_007",
+    "domain": "changements",
+    "theme": "changements_urgents",
+    "question_text": "Comment sont gérés les changements urgents (correctifs en urgence hors procédure standard) ?",
+    "follow_up_questions": [
+      "Quelle proportion des changements passe par la voie d'urgence ?",
+      "Une régularisation a posteriori (ticket, approbation) est-elle systématique ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [45, 60, 90],
+    "children": [
+      {
+        "condition": "Des changements urgents sont pratiqués",
+        "question_id": "changements_010"
+      }
+    ]
+  },
+  {
+    "id": "changements_008",
+    "domain": "changements",
+    "theme": "retour_arriere",
+    "question_text": "Quelle est la procédure de retour arrière en cas d'échec d'une mise en production ?",
+    "follow_up_questions": [
+      "Le plan de retour arrière est-il défini avant chaque déploiement ?",
+      "Un retour arrière a-t-il été exécuté sur la période auditée ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [60, 90]
+  },
+  {
+    "id": "changements_009",
+    "domain": "changements",
+    "theme": "changements_editeur",
+    "question_text": "Comment sont gérées les mises à jour fournies par l'éditeur (patchs, montées de version, releases SaaS) ?",
+    "follow_up_questions": [
+      "Les mises à jour de l'éditeur SaaS sont-elles testées avant activation ?",
+      "Comment êtes-vous informés du contenu des releases ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "saas", "on_premise", "autre"],
+      "interlocutors": ["infra", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [45, 60, 90]
+  },
+  {
+    "id": "changements_010",
+    "domain": "changements",
+    "theme": "changements_urgents",
+    "question_text": "Pour le dernier changement urgent, pouvez-vous retracer la chronologie complète (détection, correctif, approbation, régularisation) ?",
+    "follow_up_questions": [
+      "Le correctif urgent a-t-il été testé avant ou après déploiement ?",
+      "Qui a autorisé le déploiement en urgence ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [60, 90]
+  },
+  {
+    "id": "changements_011",
+    "domain": "changements",
+    "theme": "gestion_versions",
+    "question_text": "Comment le code source et les versions sont-ils gérés (dépôt, branches, revue de code) ?",
+    "follow_up_questions": [
+      "L'accès en écriture au dépôt de code est-il restreint ?",
+      "Une revue de code par un pair est-elle obligatoire avant fusion ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "on_premise", "autre"],
+      "interlocutors": ["responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [60, 90]
+  },
+  {
+    "id": "changements_012",
+    "domain": "changements",
+    "theme": "revue_post_implementation",
+    "question_text": "Une revue post-implémentation est-elle réalisée après les changements majeurs ?",
+    "follow_up_questions": [
+      "Quels indicateurs de qualité des changements suivez-vous (taux d'échec, incidents post-MEP) ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [90]
+  }
+]

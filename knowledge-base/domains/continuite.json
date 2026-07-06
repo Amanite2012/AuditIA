@@ -1,0 +1,166 @@
+[
+  {
+    "id": "continuite_001",
+    "domain": "continuite",
+    "theme": "strategie_sauvegarde",
+    "question_text": "Quelle est la stratégie de sauvegarde des données de l'application (fréquence, type, rétention) ?",
+    "follow_up_questions": [
+      "Les sauvegardes couvrent-elles les données, les configurations et les programmes ?",
+      "Où sont stockées les sauvegardes (sur site, hors site, cloud) ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90]
+  },
+  {
+    "id": "continuite_002",
+    "domain": "continuite",
+    "theme": "tests_restauration",
+    "question_text": "Des tests de restauration des sauvegardes sont-ils réalisés, et à quelle fréquence ?",
+    "follow_up_questions": [
+      "Le dernier test de restauration est-il documenté ?",
+      "Les tests portent-ils sur des restaurations complètes ou partielles ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90],
+    "children": [
+      {
+        "condition": "Des tests de restauration sont réalisés",
+        "question_id": "continuite_008"
+      }
+    ]
+  },
+  {
+    "id": "continuite_003",
+    "domain": "continuite",
+    "theme": "plan_reprise",
+    "question_text": "Existe-t-il un plan de reprise d'activité (PRA) couvrant cette application ?",
+    "follow_up_questions": [
+      "Le PRA est-il formalisé et à jour ?",
+      "L'application est-elle classée critique dans l'analyse d'impact (BIA) ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90]
+  },
+  {
+    "id": "continuite_004",
+    "domain": "continuite",
+    "theme": "tests_pra",
+    "question_text": "Le plan de reprise a-t-il été testé, et quels ont été les résultats du dernier exercice ?",
+    "follow_up_questions": [
+      "Le test couvrait-il cette application spécifiquement ?",
+      "Les écarts constatés lors du test ont-ils fait l'objet d'un plan d'action ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["infra", "rssi", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [45, 60, 90]
+  },
+  {
+    "id": "continuite_005",
+    "domain": "continuite",
+    "theme": "rto_rpo",
+    "question_text": "Quels sont les objectifs de reprise définis pour cette application (RTO et RPO) ?",
+    "follow_up_questions": [
+      "Ces objectifs ont-ils été validés par le métier ?",
+      "L'architecture actuelle permet-elle de tenir ces objectifs ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [45, 60, 90]
+  },
+  {
+    "id": "continuite_006",
+    "domain": "continuite",
+    "theme": "site_secours",
+    "question_text": "Quelle est l'architecture de secours (site secondaire, réplication, haute disponibilité) ?",
+    "follow_up_questions": [
+      "La réplication est-elle synchrone ou asynchrone ?",
+      "Le site de secours est-il suffisamment distant du site principal ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [60, 90]
+  },
+  {
+    "id": "continuite_007",
+    "domain": "continuite",
+    "theme": "protection_sauvegardes",
+    "question_text": "Comment les sauvegardes sont-elles protégées contre une altération ou un chiffrement malveillant (ransomware) ?",
+    "follow_up_questions": [
+      "Existe-t-il des copies immuables ou hors ligne ?",
+      "Les accès aux systèmes de sauvegarde sont-ils séparés des accès de production ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "on_premise", "autre"],
+      "interlocutors": ["infra", "rssi", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [60, 90]
+  },
+  {
+    "id": "continuite_008",
+    "domain": "continuite",
+    "theme": "tests_restauration",
+    "question_text": "Pour le dernier test de restauration, pouvez-vous décrire le périmètre, la durée effective et les anomalies rencontrées ?",
+    "follow_up_questions": [
+      "La durée de restauration constatée est-elle compatible avec le RTO ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [60, 90]
+  },
+  {
+    "id": "continuite_009",
+    "domain": "continuite",
+    "theme": "continuite_fournisseur",
+    "question_text": "Pour les services externalisés (SaaS, hébergement), quelles garanties de continuité le fournisseur apporte-t-il ?",
+    "follow_up_questions": [
+      "Les engagements de disponibilité et de reprise figurent-ils au contrat ?",
+      "Une réversibilité (récupération des données) est-elle prévue en cas de défaillance du fournisseur ?"
+    ],
+    "applicable_to": {
+      "app_types": ["saas", "middleware", "autre"],
+      "interlocutors": ["infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [45, 60, 90]
+  },
+  {
+    "id": "continuite_010",
+    "domain": "continuite",
+    "theme": "gestion_crise",
+    "question_text": "Comment s'organise la gestion de crise en cas d'indisponibilité majeure (cellule de crise, communication, escalade) ?",
+    "follow_up_questions": [
+      "Une crise réelle ou un exercice de crise a-t-il eu lieu sur la période ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["rssi", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [90]
+  }
+]

@@ -1,0 +1,167 @@
+[
+  {
+    "id": "operations_001",
+    "domain": "operations",
+    "theme": "supervision_batch",
+    "question_text": "Comment les traitements batch de l'application sont-ils planifiés et supervisés ?",
+    "follow_up_questions": [
+      "Quel ordonnanceur est utilisé ?",
+      "Qui surveille l'exécution des traitements et sur quels horaires ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90],
+    "children": [
+      {
+        "condition": "Des traitements batch critiques existent",
+        "question_id": "operations_009"
+      }
+    ]
+  },
+  {
+    "id": "operations_002",
+    "domain": "operations",
+    "theme": "gestion_incidents",
+    "question_text": "Comment sont gérés les incidents affectant l'application (détection, qualification, résolution) ?",
+    "follow_up_questions": [
+      "Quel outil de ticketing est utilisé ?",
+      "Des niveaux de priorité et des délais de résolution sont-ils définis ?",
+      "Les incidents majeurs de la période peuvent-ils être listés ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90]
+  },
+  {
+    "id": "operations_003",
+    "domain": "operations",
+    "theme": "traitement_erreurs_batch",
+    "question_text": "Que se passe-t-il lorsqu'un traitement batch échoue (alerte, reprise, escalade) ?",
+    "follow_up_questions": [
+      "Les échecs de traitement sont-ils tracés dans un outil ?",
+      "Des procédures de reprise sont-elles documentées pour les traitements critiques ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90]
+  },
+  {
+    "id": "operations_004",
+    "domain": "operations",
+    "theme": "execution_sauvegardes",
+    "question_text": "Comment l'exécution des sauvegardes est-elle contrôlée au quotidien ?",
+    "follow_up_questions": [
+      "Les échecs de sauvegarde génèrent-ils une alerte, et qui la traite ?",
+      "Le taux de succès des sauvegardes est-il suivi ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90]
+  },
+  {
+    "id": "operations_005",
+    "domain": "operations",
+    "theme": "supervision_infrastructure",
+    "question_text": "Quelle supervision est en place sur l'infrastructure qui héberge l'application (disponibilité, performance) ?",
+    "follow_up_questions": [
+      "Des seuils d'alerte sont-ils définis et vers qui les alertes sont-elles envoyées ?",
+      "La disponibilité de l'application est-elle mesurée et rapportée ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "on_premise", "autre"],
+      "interlocutors": ["infra", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [45, 60, 90]
+  },
+  {
+    "id": "operations_006",
+    "domain": "operations",
+    "theme": "supervision_interfaces",
+    "question_text": "Comment les interfaces et flux de données entrants et sortants de l'application sont-ils supervisés ?",
+    "follow_up_questions": [
+      "Comment un flux en échec ou incomplet est-il détecté et rejoué ?",
+      "Des contrôles d'intégrité (comptages, totaux) existent-ils sur les flux financiers ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [45, 60, 90]
+  },
+  {
+    "id": "operations_007",
+    "domain": "operations",
+    "theme": "gestion_problemes",
+    "question_text": "Comment les incidents récurrents sont-ils analysés en profondeur (gestion des problèmes) ?",
+    "follow_up_questions": [
+      "Des analyses de cause racine sont-elles documentées pour les incidents majeurs ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["infra", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [60, 90]
+  },
+  {
+    "id": "operations_008",
+    "domain": "operations",
+    "theme": "infogerance_sla",
+    "question_text": "Quelles opérations sont déléguées à des prestataires, et comment leur performance est-elle suivie ?",
+    "follow_up_questions": [
+      "Des SLA sont-ils contractualisés et revus périodiquement ?",
+      "Recevez-vous des rapports d'assurance (ISAE 3402 / SOC) de vos prestataires ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["infra", "rssi", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [60, 90]
+  },
+  {
+    "id": "operations_009",
+    "domain": "operations",
+    "theme": "supervision_batch",
+    "question_text": "Pour les traitements batch critiques pour la clôture financière, comment garantissez-vous leur complétude et leur ordre d'exécution ?",
+    "follow_up_questions": [
+      "Les dépendances entre traitements sont-elles gérées par l'ordonnanceur ?",
+      "Qui peut modifier la planification des traitements, et ces modifications sont-elles tracées ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [60, 90]
+  },
+  {
+    "id": "operations_010",
+    "domain": "operations",
+    "theme": "gestion_capacite",
+    "question_text": "Comment la capacité (stockage, calcul) est-elle suivie et anticipée pour cette application ?",
+    "follow_up_questions": [
+      "Des incidents liés à une saturation ont-ils eu lieu sur la période ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [90]
+  }
+]

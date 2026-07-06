@@ -1,0 +1,204 @@
+[
+  {
+    "id": "acces_001",
+    "domain": "acces",
+    "theme": "gouvernance_acces",
+    "question_text": "Pouvez-vous décrire la politique de gestion des accès logiques applicable à cette application ?",
+    "follow_up_questions": [
+      "Cette politique est-elle formalisée et à jour ?",
+      "Qui est propriétaire de la politique et à quelle fréquence est-elle revue ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90]
+  },
+  {
+    "id": "acces_002",
+    "domain": "acces",
+    "theme": "provisionnement",
+    "question_text": "Comment se déroule l'attribution d'un accès à l'application pour un nouvel arrivant ?",
+    "follow_up_questions": [
+      "Qui approuve la demande d'accès avant sa création ?",
+      "La demande et l'approbation sont-elles tracées dans un outil ?",
+      "Les profils attribués sont-ils standardisés par fonction ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90]
+  },
+  {
+    "id": "acces_003",
+    "domain": "acces",
+    "theme": "deprovisionnement",
+    "question_text": "Comment les accès sont-ils révoqués lors du départ d'un collaborateur ou d'un prestataire ?",
+    "follow_up_questions": [
+      "Dans quel délai l'accès est-il désactivé après le départ ?",
+      "Existe-t-il un flux automatique entre la RH et la gestion des comptes ?",
+      "Comment traitez-vous les départs de prestataires externes ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90]
+  },
+  {
+    "id": "acces_004",
+    "domain": "acces",
+    "theme": "modification_acces",
+    "question_text": "Comment les droits sont-ils ajustés en cas de mobilité interne (changement de poste) ?",
+    "follow_up_questions": [
+      "Les anciens droits sont-ils retirés ou seulement de nouveaux droits ajoutés ?",
+      "Une revalidation par le nouveau manager est-elle requise ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [45, 60, 90]
+  },
+  {
+    "id": "acces_005",
+    "domain": "acces",
+    "theme": "revue_habilitations",
+    "question_text": "Qui est responsable de la revue périodique des habilitations et à quelle fréquence est-elle réalisée ?",
+    "follow_up_questions": [
+      "Sur quel périmètre porte la revue (tous les comptes, comptes sensibles) ?",
+      "Comment les anomalies détectées sont-elles corrigées et dans quel délai ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90],
+    "children": [
+      {
+        "condition": "Une revue périodique des habilitations existe",
+        "question_id": "acces_010"
+      }
+    ]
+  },
+  {
+    "id": "acces_006",
+    "domain": "acces",
+    "theme": "comptes_privilegies",
+    "question_text": "Comment sont gérés les comptes à privilèges (administrateurs applicatifs, système et base de données) ?",
+    "follow_up_questions": [
+      "Combien de personnes disposent d'un accès administrateur ?",
+      "Les comptes à privilèges sont-ils nominatifs ?",
+      "Leur utilisation est-elle journalisée et revue ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90]
+  },
+  {
+    "id": "acces_007",
+    "domain": "acces",
+    "theme": "comptes_generiques",
+    "question_text": "Existe-t-il des comptes génériques, techniques ou de service, et comment sont-ils encadrés ?",
+    "follow_up_questions": [
+      "Qui connaît les mots de passe de ces comptes ?",
+      "Leur usage interactif est-il interdit ou tracé ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [45, 60, 90]
+  },
+  {
+    "id": "acces_008",
+    "domain": "acces",
+    "theme": "authentification",
+    "question_text": "Quelles sont les règles d'authentification en vigueur (complexité des mots de passe, MFA, SSO) ?",
+    "follow_up_questions": [
+      "Les paramètres de mot de passe sont-ils imposés techniquement ?",
+      "L'authentification multi-facteurs est-elle déployée, et pour quels profils ?",
+      "Comment sont gérés les verrouillages de compte après échecs ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [30, 45, 60, 90]
+  },
+  {
+    "id": "acces_009",
+    "domain": "acces",
+    "theme": "separation_taches",
+    "question_text": "Comment la séparation des tâches est-elle assurée dans les profils applicatifs ?",
+    "follow_up_questions": [
+      "Des matrices de séparation des tâches sont-elles définies ?",
+      "Des contrôles compensatoires existent-ils en cas de cumul de droits ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "saas", "on_premise", "autre"],
+      "interlocutors": ["rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [45, 60, 90]
+  },
+  {
+    "id": "acces_010",
+    "domain": "acces",
+    "theme": "revue_habilitations",
+    "question_text": "Pouvez-vous décrire la traçabilité de la dernière revue des habilitations (support, signatures, actions correctives) ?",
+    "follow_up_questions": [
+      "Un exemple de campagne de revue documentée peut-il être fourni ?",
+      "Les suppressions demandées ont-elles été exécutées et vérifiées ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "responsable_applicatif", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [45, 60, 90]
+  },
+  {
+    "id": "acces_011",
+    "domain": "acces",
+    "theme": "acces_directs_donnees",
+    "question_text": "Qui dispose d'un accès direct à la base de données de l'application, et pour quels usages ?",
+    "follow_up_questions": [
+      "Les modifications directes en base sont-elles interdites, encadrées ou tracées ?",
+      "Les requêtes sensibles font-elles l'objet d'une journalisation ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "on_premise", "autre"],
+      "interlocutors": ["dba", "infra", "rssi", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [60, 90]
+  },
+  {
+    "id": "acces_012",
+    "domain": "acces",
+    "theme": "acces_distants_tiers",
+    "question_text": "Comment sont encadrés les accès distants et les accès des tiers (éditeur, infogérant) à l'application ?",
+    "follow_up_questions": [
+      "Les accès de l'éditeur sont-ils permanents ou activés à la demande ?",
+      "Les interventions des tiers sont-elles tracées et revues ?"
+    ],
+    "applicable_to": {
+      "app_types": ["erp", "middleware", "batch", "saas", "on_premise", "autre"],
+      "interlocutors": ["infra", "rssi", "dsi", "autre"],
+      "mission_types": ["audit_annuel", "controle_interne", "revue_ciblee", "autre"]
+    },
+    "depth_levels": [60, 90]
+  }
+]
